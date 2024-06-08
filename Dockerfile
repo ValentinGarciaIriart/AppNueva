@@ -16,16 +16,6 @@ COPY . .
 ENV RUN_TESTS=true
 
 # Ejecuta los tests si la variable de entorno lo indica
-RUN if [ "$RUN_TESTS" = "true" ]; then \
-        npm test & \
-        TEST_PID=$!; \
-        wait $TEST_PID; \
-        if [ $? -ne 0 ]; then \
-            echo "Tests failed, exiting build."; \
-            kill -s INT $TEST_PID; \
-            exit 1; \
-        fi \
-    fi
-
+RUN npm test || (echo "Tests failed, exiting build."; exit 1)
 # Comando para ejecutar la aplicación cuando el contenedor se inicie
 CMD ["npm", "start"]
