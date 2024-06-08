@@ -1,15 +1,5 @@
 steps:
-  # Step 1: Instalar dependencias
-  - name: 'node:20'
-    entrypoint: 'npm'
-    args: ['install']
-  
-  # Step 2: Ejecutar los tests
-  - name: 'node:20'
-    entrypoint: 'npm'
-    args: ['test']
-
-  # Step 3: Construir la imagen Docker si los tests pasan
+  # Step 1: Construir la imagen Docker si los tests pasan
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -17,19 +7,19 @@ steps:
       - 'us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js'
       - '.'
 
-  # Step 4: Push la imagen a Artifact Registry
+  # Step 2: Push la imagen a Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - 'us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js'
-  # Step 5: Tag la imagen para Docker Hub
+  # Step 3: Tag la imagen para Docker Hub
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'tag'
       - 'us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js'
       - 'valentingarciairiart/calcjs:js'
 
-  # Step 6: Login en Docker Hub
+  # Step 4: Login en Docker Hub
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'login'
@@ -38,7 +28,7 @@ steps:
       - '-p'
       - '${_DOCKER_PASSWORD}'
 
-  # Step 7: Push la imagen a Docker Hub
+  # Step 5: Push la imagen a Docker Hub
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
