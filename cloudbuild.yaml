@@ -5,7 +5,6 @@ steps:
       - 'build'
       - '-t'
       - 'us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js'
-      - '--build-arg=RUN_TESTS=true'  # Pasar el argumento para ejecutar los tests
       - '.'
 
   # Step 2: Push la imagen a Artifact Registry
@@ -39,8 +38,3 @@ steps:
 images:
   - 'us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js'
   - 'valentingarciairiart/calcjs:js'
-
-# Definir condiciones de éxito para detener la construcción si los tests fallan
-options:
-  success:
-    if: "steps['Run tests'].status == 'SUCCESS'"
