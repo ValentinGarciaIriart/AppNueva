@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculadorajs-deployment
+spec:
+  replicas: 1  # Puedes ajustar el número de réplicas según tus necesidades
+  selector:
+    matchLabels:
+      app: calculadorajs
+  template:
+    metadata:
+      labels:
+        app: calculadorajs
+    spec:
+      containers:
+      - name: calculadorajs
+        image: us-docker.pkg.dev/still-descent-423419-c7/calculadorajs/calcjs:js  # Reemplaza con tu ruta de imagen en Artifact Registry
+        ports:
+        - containerPort: 3000  # Puerto en el que corre tu aplicación
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculadorajs-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80  # Puerto del servicio
+      targetPort: 3000  # Puerto al que el Service redirige el tráfico
+  selector:
+    app: calculadorajs  # Selector para enrutar el tráfico al Deployment correcto
