@@ -13,4 +13,6 @@ RUN npm install
 # Copia el resto de los archivos de la aplicación
 COPY . .
 
+RUN npm test || exit 1
+
 CMD ["npm", "start"]

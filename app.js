@@ -1,21 +1,30 @@
 const express = require('express');
-const path = require('path');
-
 const app = express();
-const calculatorRouter = require('./routes/calculator');
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.use('/api', calculatorRouter);
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+app.post('/api/add', (req, res) => {
+  const { num1, num2 } = req.body;
+  res.json({ result: num1 + num2 });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.post('/api/subtract', (req, res) => {
+  const { num1, num2 } = req.body;
+  res.json({ result: num1 - num2 });
+});
+
+app.post('/api/multiply', (req, res) => {
+  const { num1, num2 } = req.body;
+  res.json({ result: num1 * num2 });
+});
+
+app.post('/api/divide', (req, res) => {
+  const { num1, num2 } = req.body;
+  if (num2 === 0) {
+    res.status(400).send('Cannot divide by zero');
+  } else {
+    res.json({ result: num1 / num2 });
+  }
 });
 
 module.exports = app;
