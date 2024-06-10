@@ -15,4 +15,6 @@ COPY . .
 
 RUN npm test || exit 1
 
+EXPOSE 3000
+
 CMD ["npm", "start"]
