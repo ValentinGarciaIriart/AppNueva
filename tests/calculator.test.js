@@ -23,7 +23,7 @@ describe('Calculator API', () => {
       .post('/api/add')
       .send({ num1: 1, num2: 2 });
     expect(response.status).toBe(200);
-    expect(response.body.result).toBe(4);
+    expect(response.body.result).toBe(3);
   });
 
   it('should subtract two numbers', async () => {
